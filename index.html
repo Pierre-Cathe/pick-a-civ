@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Pick a Civ !</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+
+
+        <script type="text/javascript">
+            function redraw() {
+                var e = document.querySelector("body");
+                var child = e.lastElementChild;
+                while (child) {
+                    e.removeChild(child);
+                    child = e.lastElementChild;
+                }
+                draw()
+            }
+
+            function readLS(){
+                var whatIRead = JSON.parse(window.localStorage.getItem("disabledCivs"));
+                if (whatIRead===null){
+                    return [
+                        {name:"Poland",leader:"Casimir III", enabled:true},
+                        {name:"Venice",leader:"Enrico Dandolo", enabled:true},
+                    ];
+                }
+                return whatIRead;
+            }
+
+            function writeLS(disabledCivs){
+                window.localStorage.setItem("disabledCivs",JSON.stringify(disabledCivs));
+            }
+
+            function flip(civ){
+                civ.enabled=!civ.enabled;
+                writeLS(allCivs);
+                redraw()
+            }
+
+            function pick(){
+                redraw()
+                var enabled = allCivs.filter(civ=>civ.enabled);
+                var chosenCiv = enabled[Math.floor(Math.random() * enabled.length)];
+                var output = document.createElement("p");
+                output.innerHTML=chosenCiv.name+"  "+chosenCiv.leader;
+                document.body.appendChild(output);
+            }
+
+
+            function draw(){
+                var title = document.createElement("h1");
+                title.innerHTML="Pick-a-Civ";
+                var subtitle = document.createElement("h2");
+                subtitle.innerHTML="Your ultimate civ picking tool !";
+
+                var table = document.createElement("table");
+                table.innerHTML="<tr><th>Flag</th><th>Name</th><th>Leader</th></tr>";
+                allCivs.forEach(civ=>{
+                    var row = document.createElement("tr");
+                    row.setAttribute("id",civ.name+"row");
+                    row.setAttribute("class",civ.enabled?"enabled":"disabled");
+                    row.addEventListener("click",function(){flip(civ);});
+
+                    var imgCell = document.createElement("td");
+                    var img = document.createElement("img");
+                    img.setAttribute("src","img/"+civ.name+".png");
+                    imgCell.appendChild(img);
+                    var nameCell = document.createElement("td");
+                    nameCell.innerHTML = civ.name;
+                    var leaderCell = document.createElement("td");
+                    leaderCell.innerHTML=civ.leader;
+                    row.appendChild(imgCell);
+                    row.appendChild(nameCell);
+                    row.appendChild(leaderCell);
+                    table.appendChild(row);
+                });
+                document.body.appendChild(title);
+                document.body.appendChild(subtitle);
+                document.body.appendChild(table);
+                var pickButton = document.createElement("input");
+                pickButton.type="button";
+                pickButton.addEventListener("click",function(){pick()})
+                pickButton.value="Pick a Civ !";
+                document.body.appendChild(pickButton);
+            }
+
+            var allCivs = readLS();
+            draw()
+
+        </script>
+
+    </body>
+</html>
