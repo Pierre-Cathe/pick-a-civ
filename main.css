@@ -84,6 +84,7 @@ h2{
 
 #title {
   width: 400px;
+  transform: translateX(-10px);
 }
 
 #output {
