@@ -49,7 +49,8 @@
                 var chosenCiv = enabled[Math.floor(Math.random() * enabled.length)];
                 var output = document.createElement("div");
                 output.innerHTML=civs[chosenCiv][saveData.language]+"  "+civs[chosenCiv]["leader"+saveData.language];
-                document.body.appendChild(output);
+                var button = document.getElementById("grid");
+                grid.parentNode.insertBefore( output, grid );
             }
 
 
@@ -80,8 +81,19 @@
                 title.innerHTML= "Pick-a-Civ";
                 var subtitle = document.createElement("h2");
                 subtitle.innerHTML= saveData.language==="fr"?"Le meilleur sélecteur aléatoire de civs !":"Your ultimate random civ picking tool !";
+                document.body.appendChild(title);
+                document.body.appendChild(subtitle);
+
+                var pickButton = document.createElement("input");
+                pickButton.type="button";
+                pickButton.setAttribute("id","pick");
+                pickButton.setAttribute("class","noselect");
+                pickButton.addEventListener("click",function(){pick()})
+                pickButton.value=saveData.language==="fr"?"CHOISIR UNE CIV !":"PICK A CIV !";
+                document.body.appendChild(pickButton);
 
                 var grid = document.createElement("div");
+                grid.setAttribute("id","grid");
                 grid.setAttribute("class","noselect container")
                 Object.keys(civs).forEach(civCode=>{
                     var divCell = document.createElement("div");
@@ -94,7 +106,7 @@
                     var civNameTitle = document.createElement("h3");
                     civNameTitle.innerHTML = civs[civCode][saveData.language];
                     divCell.appendChild(civNameTitle);
-                    var civLeaderSubtitle = document.createElement("h3");
+                    var civLeaderSubtitle = document.createElement("p");
                     civLeaderSubtitle.innerHTML = civs[civCode]["leader"+saveData.language];
                     divCell.appendChild(civLeaderSubtitle);
                     var imgLeader = document.createElement("img");
@@ -102,17 +114,11 @@
                     divCell.appendChild(imgLeader);
                     grid.appendChild(divCell);
                 });
-                document.body.appendChild(title);
-                document.body.appendChild(subtitle);
+
                 document.body.appendChild(grid);
 
 
-                var pickButton = document.createElement("input");
-                pickButton.type="button";
-                pickButton.setAttribute("id","pick");
-                pickButton.addEventListener("click",function(){pick()})
-                pickButton.value=saveData.language==="fr"?"Choisir une Civ !":"Pick a Civ !";
-                document.body.appendChild(pickButton);
+
             }
 
 

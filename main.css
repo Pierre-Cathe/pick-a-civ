@@ -1,23 +1,36 @@
+body{
+  font-family:"Trebuchet MS";
+  text-align: center;
+}
+
 img {
     width: 50px;
 }
 
-.container {
-  width:80%;
+h1,h2{
+  text-align: center;
 }
 
-.middle {
-  vertical-align: middle;
+.container {
+  text-align: center;
+  margin-top: 30px;
 }
 
 .divCell {
-  float:left;
-  width: 175px;
+  width: 210px;
   height: 210px;
   border: 1px solid black;
   text-align: center;
-  margin: 5px;
+  margin: 12px;
   padding: 7px;
+  border-radius: 20px;
+  display: inline-block;
+  transition: 0.3s;
+  vertical-align: middle;
+}
+
+.divCell:hover{
+  background-color: #eee;
 }
 
 .noselect {
@@ -48,7 +61,9 @@ img {
 }
 
 #lang {
-  float: right;
+  position: absolute;
+  top:10px;
+  right:10px;
   width:200px;
 }
 
@@ -57,14 +72,15 @@ img {
 }
 
 #pick {
-  background-color: white;
+  background-color: #1d9fcc;
+  border: 2px solid #1d9fcc;
   font-size: 1.2em;
-  border-radius: 20px;
+  border-radius: 12px;
   padding:10px;
   cursor:pointer;
-  opacity:0.6;
   transition: 0.3s;
-
+  margin-left: auto;
+  color: #fff;
 }
 
 #pick:focus {
@@ -73,6 +89,7 @@ img {
 
 #pick:hover {
   opacity:1;
+  color:#222;
 }
 
 .switch {
