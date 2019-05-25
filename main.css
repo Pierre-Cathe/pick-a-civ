@@ -55,9 +55,50 @@ h1,h2{
   filter: grayscale(100%)
 }
 
+.title{
+  font-weight: bold;
+}
+
 .sup {
   font-size: 0.75em;
-  vertical-align: top;
+  vertical-align: text-top;
+  margin:0px 2px 0px 2px !important;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
+.centered{
+  position: relative;
+  top: 27px;
+}
+
+#title {
+  width: 400px;
+}
+
+#output {
+  margin-top: 20px;
+  border: 1px solid #000;
+  width:450px;
+  height:75px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+}
+
+#output img{
+  vertical-align: middle;
+  display: inline-block;
+}
+
+#output *{
+  margin: 10px;
 }
 
 #lang {

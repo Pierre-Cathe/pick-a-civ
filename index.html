@@ -48,7 +48,27 @@
                 var enabled = Object.keys(saveData).filter(civCode=>saveData[civCode]===true);
                 var chosenCiv = enabled[Math.floor(Math.random() * enabled.length)];
                 var output = document.createElement("div");
-                output.innerHTML=civs[chosenCiv][saveData.language]+"  "+civs[chosenCiv]["leader"+saveData.language];
+                output.setAttribute("id","output");
+
+                var img = document.createElement("img");
+                img.setAttribute("src","img/civs/"+chosenCiv+".png");
+                img.setAttribute("class", "left");
+                output.appendChild(img);
+                var outputText = document.createElement("span");
+                outputText.setAttribute("class","centered");
+                var civNameTitle = document.createElement("span");
+                civNameTitle.setAttribute("class","title");
+                civNameTitle.innerHTML = civs[chosenCiv][saveData.language];
+                outputText.appendChild(civNameTitle);
+                var civLeaderSubtitle = document.createElement("span");
+                civLeaderSubtitle.innerHTML = civs[chosenCiv]["leader"+saveData.language];
+                outputText.appendChild(civLeaderSubtitle);
+                output.appendChild(outputText)
+                var imgLeader = document.createElement("img");
+                imgLeader.setAttribute("src","img/leaders/"+chosenCiv+".png");
+                imgLeader.setAttribute("class", "right");
+                output.appendChild(imgLeader);
+
                 var button = document.getElementById("grid");
                 grid.parentNode.insertBefore( output, grid );
             }
@@ -77,8 +97,9 @@
                 lang.appendChild(text2);
                 document.body.appendChild(lang);
 
-                var title = document.createElement("h1");
-                title.innerHTML= "Pick-a-Civ";
+                var title = document.createElement("img");
+                title.setAttribute("src", "img/appLogo.png");
+                title.setAttribute("id","title");
                 var subtitle = document.createElement("h2");
                 subtitle.innerHTML= saveData.language==="fr"?"Le meilleur sélecteur aléatoire de civs !":"Your ultimate random civ picking tool !";
                 document.body.appendChild(title);
