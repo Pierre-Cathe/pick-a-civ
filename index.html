@@ -54,38 +54,12 @@
 
 
             function draw(){
-                var title = document.createElement("h1");
-                title.innerHTML="Pick-a-Civ";
-                var subtitle = document.createElement("h2");
-                subtitle.innerHTML="Your ultimate civ picking tool !";
-
-                var table = document.createElement("table");
-                table.setAttribute("class","noselect")
-                table.innerHTML="<tr><th>Flag</th><th>Name</th><th>Leader</th></tr>";
-                Object.keys(civs).forEach(civCode=>{
-                    var row = document.createElement("tr");
-                    row.setAttribute("class",saveData[civCode]?"enabled":"disabled");
-                    row.addEventListener("click",function(){flip(civCode);});
-
-                    var imgCell = document.createElement("td");
-                    var img = document.createElement("img");
-                    img.setAttribute("src","img/civs/"+civCode+".png");
-                    imgCell.appendChild(img);
-                    var nameCell = document.createElement("td");
-                    nameCell.innerHTML = civs[civCode][saveData.language];
-                    var leaderCell = document.createElement("td");
-                    var imgLeader = document.createElement("img");
-                    imgLeader.setAttribute("src","img/leaders/"+civCode+".png");
-                    leaderCell.appendChild(imgLeader);
-                    row.appendChild(imgCell);
-                    row.appendChild(nameCell);
-                    row.appendChild(leaderCell);
-                    table.appendChild(row);
-                });
-                document.body.appendChild(title);
-                document.body.appendChild(subtitle);
-                document.body.appendChild(table);
-
+                var lang = document.createElement("div");
+                lang.setAttribute("id","lang");
+                var text1 = document.createElement("span");
+                text1.innerHTML = "English"
+                var text2 = document.createElement("span");
+                text2.innerHTML = "Français"
                 var langLabel = document.createElement("label");
                 langLabel.setAttribute("class","switch noselect");
                 var langSwitch = document.createElement("input");
@@ -97,62 +71,100 @@
                 langSwitch.addEventListener("change",function(){saveData.language=="en"?saveData.language="fr":saveData.language="en";writeLS(saveData);redraw();})
                 langLabel.appendChild(langSwitch);
                 langLabel.appendChild(langSpan);
-                document.body.appendChild(langLabel);
+                lang.appendChild(text1);
+                lang.appendChild(langLabel);
+                lang.appendChild(text2);
+                document.body.appendChild(lang);
+
+                var title = document.createElement("h1");
+                title.innerHTML= "Pick-a-Civ";
+                var subtitle = document.createElement("h2");
+                subtitle.innerHTML= saveData.language==="fr"?"Le meilleur sélecteur aléatoire de civs !":"Your ultimate random civ picking tool !";
+
+                var grid = document.createElement("div");
+                grid.setAttribute("class","noselect container")
+                Object.keys(civs).forEach(civCode=>{
+                    var divCell = document.createElement("div");
+                    divCell.setAttribute("class",(saveData[civCode]?"enabled":"disabled")+" divCell");
+                    divCell.addEventListener("click",function(){flip(civCode);});
+
+                    var img = document.createElement("img");
+                    img.setAttribute("src","img/civs/"+civCode+".png");
+                    divCell.appendChild(img);
+                    var civNameTitle = document.createElement("h3");
+                    civNameTitle.innerHTML = civs[civCode][saveData.language];
+                    divCell.appendChild(civNameTitle);
+                    var civLeaderSubtitle = document.createElement("h3");
+                    civLeaderSubtitle.innerHTML = civs[civCode]["leader"+saveData.language];
+                    divCell.appendChild(civLeaderSubtitle);
+                    var imgLeader = document.createElement("img");
+                    imgLeader.setAttribute("src","img/leaders/"+civCode+".png");
+                    divCell.appendChild(imgLeader);
+                    grid.appendChild(divCell);
+                });
+                document.body.appendChild(title);
+                document.body.appendChild(subtitle);
+                document.body.appendChild(grid);
+
 
                 var pickButton = document.createElement("input");
                 pickButton.type="button";
+                pickButton.setAttribute("id","pick");
                 pickButton.addEventListener("click",function(){pick()})
-                pickButton.value="Pick a Civ !";
+                pickButton.value=saveData.language==="fr"?"Choisir une Civ !":"Pick a Civ !";
                 document.body.appendChild(pickButton);
             }
 
+
+
             var civs = {
                 "AM":{fr:"Amérique",en:"America",leaderfr:"Washington",leaderen:"Washington"},
-                "AR":{fr:"Arabie",en:"Arabia",leaderfr:"",leaderen:"Harun al-Rashid"},
-                "AS":{fr:"Assyrie",en:"Assyria",leaderfr:"",leaderen:"Ashurbanipal"},
-                "AU":{fr:"Autriche",en:"Austria",leaderfr:"",leaderen:"Maria Theresa"},
-                "AZ":{fr:"Aztèques",en:"Aztec",leaderfr:"",leaderen:"Montezuma"},
-                "BA":{fr:"Babylone",en:"Babylon",leaderfr:"",leaderen:"Nebuchadnezzar II"},
-                "BR":{fr:"Brésil",en:"Brazil",leaderfr:"",leaderen:"Pedro II"},
-                "BY":{fr:"Byzantins",en:"Byzantine",leaderfr:"",leaderen:"Theodora"},
-                "CA":{fr:"Carthage",en:"Carthage",leaderfr:"",leaderen:"Dido"},
-                "CE":{fr:"Les Celtes",en:"The Celts",leaderfr:"",leaderen:"Boudicca"},
-                "CH":{fr:"Chine",en:"China",leaderfr:"",leaderen:"Wu Zetian"},
-                "DA":{fr:"Danemark",en:"Denmark",leaderfr:"",leaderen:"Harald Bluetooth"},
-                "EG":{fr:"Égypte",en:"Egypt",leaderfr:"",leaderen:"Ramesses II"},
-                "EN":{fr:"Angleterre",en:"England",leaderfr:"",leaderen:"Elizabeth"},
-                "ET":{fr:"Éthiopie",en:"Ethiopia",leaderfr:"",leaderen:"Haile Selassie"},
-                "FR":{fr:"France",en:"France",leaderfr:"",leaderen:"Napoleon"},
-                "DE":{fr:"Allemagne",en:"Germany",leaderfr:"",leaderen:"Bismarck"},
-                "GR":{fr:"Grèce",en:"Greece",leaderfr:"",leaderen:"Alexander"},
-                "HU":{fr:"Les Huns",en:"The Huns",leaderfr:"",leaderen:"Attila"},
-                "IC":{fr:"Les Incas",en:"The Inca",leaderfr:"",leaderen:"Pachacuti"},
-                "IN":{fr:"Inde",en:"India",leaderfr:"",leaderen:"Gandhi"},
-                "ID":{fr:"Indonésie",en:"Indonesia",leaderfr:"",leaderen:"Gajah Mada"},
-                "IR":{fr:"Les Iroquois",en:"The Iroquois",leaderfr:"",leaderen:"Hiawatha"},
-                "JP":{fr:"Japon",en:"Japan",leaderfr:"",leaderen:"Oda Nobunaga"},
-                "KO":{fr:"Corée",en:"Korea",leaderfr:"",leaderen:"Sejong"},
-                "MA":{fr:"Les Mayas",en:"The Mayan",leaderfr:"",leaderen:"Pacal"},
-                "MO":{fr:"Mongolie",en:"Mongolia",leaderfr:"",leaderen:"Genghis Khan"},
-                "MR":{fr:"Maroc",en:"Morocco",leaderfr:"",leaderen:"Ahmad al-Mansur"},
-                "NL":{fr:"Pays-Bas",en:"Netherlands",leaderfr:"",leaderen:"William"},
-                "OT":{fr:"Les Ottomans",en:"The Ottoman",leaderfr:"",leaderen:"Suleiman"},
-                "PE":{fr:"Les Perses",en:"Persia",leaderfr:"",leaderen:"Darius I"},
-                "PL":{fr:"Pologne",en:"Poland",leaderfr:"",leaderen:"Casimir_III"},
-                "PY":{fr:"Polynésie",en:"Polynesia",leaderfr:"",leaderen:"Kamehameha"},
-                "PO":{fr:"Portugal",en:"Portugal",leaderfr:"",leaderen:"Maria I"},
-                "RO":{fr:"Rome",en:"Rome",leaderfr:"",leaderen:"Augustus Caesar"},
-                "RU":{fr:"Russie",en:"Russia",leaderfr:"",leaderen:"Catherine"},
-                "SH":{fr:"Les Shoshones",en:"The Shoshone",leaderfr:"",leaderen:"Pocatello"},
-                "SI":{fr:"Siam",en:"Siam",leaderfr:"",leaderen:"Ramkhamhaeng"},
-                "SO":{fr:"Songhai",en:"Songhai",leaderfr:"",leaderen:"Askia"},
-                "ES":{fr:"Espagne",en:"Spain",leaderfr:"",leaderen:"Isabella"},
-                "SW":{fr:"Suède",en:"Sweden",leaderfr:"",leaderen:"Gustavus Adolphus"},
-                "VE":{fr:"Venise",en:"Venice",leaderfr:"",leaderen:"Enrico Dandolo"},
-                "ZU":{fr:"Les Zoulous",en:"The Zulu",leaderfr:"",leaderen:"Shaka"},
+                "AR":{fr:"Arabie",en:"Arabia",leaderfr:"Hârûn ar-Rachîd",leaderen:"Harun al-Rashid"},
+                "AS":{fr:"Assyrie",en:"Assyria",leaderfr:"Assurbanipal",leaderen:"Ashurbanipal"},
+                "AU":{fr:"Autriche",en:"Austria",leaderfr:"Marie-Thérèse",leaderen:"Maria Theresa"},
+                "AZ":{fr:"Aztèques",en:"The Aztecs",leaderfr:"Moctezuma",leaderen:"Montezuma"},
+                "BA":{fr:"Babylone",en:"Babylon",leaderfr:"Nabuchodonosor II",leaderen:"Nebuchadnezzar II"},
+                "BR":{fr:"Brésil",en:"Brazil",leaderfr:"Pierre II",leaderen:"Pedro II"},
+                "BY":{fr:"Byzance",en:"Byzantium",leaderfr:"Théodora",leaderen:"Theodora"},
+                "CA":{fr:"Carthage",en:"Carthage",leaderfr:"Didon",leaderen:"Dido"},
+                "CE":{fr:"Celtes",en:"The Celts",leaderfr:"Boadicée",leaderen:"Boudicca"},
+                "CH":{fr:"Chine",en:"China",leaderfr:"Wu Zetian",leaderen:"Wu Zetian"},
+                "DA":{fr:"Danemark",en:"Denmark",leaderfr:"Harald I<span class=\"sup\">er</span>",leaderen:"Harald Bluetooth"},
+                "EG":{fr:"Égypte",en:"Egypt",leaderfr:"Ramsès II",leaderen:"Ramesses II"},
+                "EN":{fr:"Angleterre",en:"England",leaderfr:"Élisabeth",leaderen:"Elizabeth"},
+                "ET":{fr:"Éthiopie",en:"Ethiopia",leaderfr:"Hailé Sélassié",leaderen:"Haile Selassie"},
+                "FR":{fr:"France",en:"France",leaderfr:"Napoléon",leaderen:"Napoleon"},
+                "DE":{fr:"Allemagne",en:"Germany",leaderfr:"Bismarck",leaderen:"Bismarck"},
+                "GR":{fr:"Grèce",en:"Greece",leaderfr:"Alexandre le Grand",leaderen:"Alexander"},
+                "HU":{fr:"Huns",en:"The Huns",leaderfr:"Attila",leaderen:"Attila"},
+                "IC":{fr:"Incas",en:"The Inca",leaderfr:"Pachacutec",leaderen:"Pachacuti"},
+                "IN":{fr:"Inde",en:"India",leaderfr:"Gandhi",leaderen:"Gandhi"},
+                "ID":{fr:"Indonésie",en:"Indonesia",leaderfr:"Gajah Mada",leaderen:"Gajah Mada"},
+                "IR":{fr:"Iroquois",en:"The Iroquois",leaderfr:"Hiawatha",leaderen:"Hiawatha"},
+                "JP":{fr:"Japon",en:"Japan",leaderfr:"Nobunaga Oda",leaderen:"Oda Nobunaga"},
+                "KO":{fr:"Corée",en:"Korea",leaderfr:"Sejong",leaderen:"Sejong"},
+                "MA":{fr:"Mayas",en:"The Maya",leaderfr:"Pacal",leaderen:"Pacal"},
+                "MO":{fr:"Mongolie",en:"Mongolia",leaderfr:"Gengis Khan",leaderen:"Genghis Khan"},
+                "MR":{fr:"Maroc",en:"Morocco",leaderfr:"Ahmed al-Mansour",leaderen:"Ahmad al-Mansur"},
+                "NL":{fr:"Pays-Bas",en:"The Netherlands",leaderfr:"Guillaume d'Orange",leaderen:"William"},
+                "OT":{fr:"Ottomans",en:"The Ottomans",leaderfr:"Soliman",leaderen:"Suleiman"},
+                "PE":{fr:"Perse",en:"Persia",leaderfr:"Darius I<span class=\"sup\">er</span>",leaderen:"Darius I"},
+                "PL":{fr:"Pologne",en:"Poland",leaderfr:"Casimir III",leaderen:"Casimir III"},
+                "PY":{fr:"Polynésie",en:"Polynesia",leaderfr:"Kamehameha",leaderen:"Kamehameha"},
+                "PO":{fr:"Portugal",en:"Portugal",leaderfr:"Marie I<span class=\"sup\">ère</span>",leaderen:"Maria I"},
+                "RO":{fr:"Rome",en:"Rome",leaderfr:"Auguste César",leaderen:"Augustus Caesar"},
+                "RU":{fr:"Russie",en:"Russia",leaderfr:"Catherine",leaderen:"Catherine"},
+                "SH":{fr:"Shoshones",en:"The Shoshone",leaderfr:"Pocatello",leaderen:"Pocatello"},
+                "SI":{fr:"Siam",en:"Siam",leaderfr:"Ramkhamhaeng",leaderen:"Ramkhamhaeng"},
+                "SO":{fr:"Songhaï",en:"Songhai",leaderfr:"Askia",leaderen:"Askia"},
+                "ES":{fr:"Espagne",en:"Spain",leaderfr:"Isabelle",leaderen:"Isabella"},
+                "SW":{fr:"Suède",en:"Sweden",leaderfr:"Gustave II Adolphe",leaderen:"Gustavus Adolphus"},
+                "VE":{fr:"Venise",en:"Venice",leaderfr:"Enrico Dandolo",leaderen:"Enrico Dandolo"},
+                "ZU":{fr:"Zoulous",en:"The Zulus",leaderfr:"Chaka Zulu",leaderen:"Shaka"},
             };
 
             var saveData = readLS();
+
             draw()
 
         </script>
