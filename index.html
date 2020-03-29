@@ -74,6 +74,25 @@
             }
 
 
+            function sort_civs_en(o1, o2){
+                str_to_compare_1 = civs[o1]["en"];
+                str_to_compare_2 = civs[o2]["en"];
+                return str_to_compare_1.localeCompare(str_to_compare_2);
+            }
+
+            function sort_civs_fr(o1, o2){
+                str_to_compare_1 = civs[o1]["fr"];
+                str_to_compare_2 = civs[o2]["fr"];
+                return str_to_compare_1.localeCompare(str_to_compare_2);
+            }
+
+            var sort_civs = {
+                "en": sort_civs_en,
+                "fr": sort_civs_fr
+            };
+
+
+
             function draw(){
                 var lang = document.createElement("div");
                 lang.setAttribute("id","lang");
@@ -116,7 +135,7 @@
                 var grid = document.createElement("div");
                 grid.setAttribute("id","grid");
                 grid.setAttribute("class","noselect container")
-                Object.keys(civs).forEach(civCode=>{
+                Object.keys(civs).sort(sort_civs[saveData.language]).forEach(civCode=>{
                     var divCell = document.createElement("div");
                     divCell.setAttribute("class",(saveData[civCode]?"enabled":"disabled")+" divCell");
                     divCell.addEventListener("click",function(){flip(civCode);});
@@ -137,9 +156,6 @@
                 });
 
                 document.body.appendChild(grid);
-
-
-
             }
 
 
@@ -149,12 +165,12 @@
                 "AR":{fr:"Arabie",en:"Arabia",leaderfr:"Hârûn ar-Rachîd",leaderen:"Harun al-Rashid"},
                 "AS":{fr:"Assyrie",en:"Assyria",leaderfr:"Assurbanipal",leaderen:"Ashurbanipal"},
                 "AU":{fr:"Autriche",en:"Austria",leaderfr:"Marie-Thérèse",leaderen:"Maria Theresa"},
-                "AZ":{fr:"Aztèques",en:"The Aztecs",leaderfr:"Moctezuma",leaderen:"Montezuma"},
+                "AZ":{fr:"Aztèques",en:"Aztecs",leaderfr:"Moctezuma",leaderen:"Montezuma"},
                 "BA":{fr:"Babylone",en:"Babylon",leaderfr:"Nabuchodonosor II",leaderen:"Nebuchadnezzar II"},
                 "BR":{fr:"Brésil",en:"Brazil",leaderfr:"Pierre II",leaderen:"Pedro II"},
                 "BY":{fr:"Byzance",en:"Byzantium",leaderfr:"Théodora",leaderen:"Theodora"},
                 "CA":{fr:"Carthage",en:"Carthage",leaderfr:"Didon",leaderen:"Dido"},
-                "CE":{fr:"Celtes",en:"The Celts",leaderfr:"Boadicée",leaderen:"Boudicca"},
+                "CE":{fr:"Celtes",en:"Celts",leaderfr:"Boadicée",leaderen:"Boudicca"},
                 "CH":{fr:"Chine",en:"China",leaderfr:"Wu Zetian",leaderen:"Wu Zetian"},
                 "DA":{fr:"Danemark",en:"Denmark",leaderfr:"Harald I<span class=\"sup\">er</span>",leaderen:"Harald Bluetooth"},
                 "EG":{fr:"Égypte",en:"Egypt",leaderfr:"Ramsès II",leaderen:"Ramesses II"},
@@ -163,31 +179,31 @@
                 "FR":{fr:"France",en:"France",leaderfr:"Napoléon",leaderen:"Napoleon"},
                 "DE":{fr:"Allemagne",en:"Germany",leaderfr:"Bismarck",leaderen:"Bismarck"},
                 "GR":{fr:"Grèce",en:"Greece",leaderfr:"Alexandre le Grand",leaderen:"Alexander"},
-                "HU":{fr:"Huns",en:"The Huns",leaderfr:"Attila",leaderen:"Attila"},
-                "IC":{fr:"Incas",en:"The Inca",leaderfr:"Pachacutec",leaderen:"Pachacuti"},
+                "HU":{fr:"Huns",en:"Huns",leaderfr:"Attila",leaderen:"Attila"},
+                "IC":{fr:"Incas",en:"Inca",leaderfr:"Pachacutec",leaderen:"Pachacuti"},
                 "IN":{fr:"Inde",en:"India",leaderfr:"Gandhi",leaderen:"Gandhi"},
                 "ID":{fr:"Indonésie",en:"Indonesia",leaderfr:"Gajah Mada",leaderen:"Gajah Mada"},
-                "IR":{fr:"Iroquois",en:"The Iroquois",leaderfr:"Hiawatha",leaderen:"Hiawatha"},
+                "IR":{fr:"Iroquois",en:"Iroquois",leaderfr:"Hiawatha",leaderen:"Hiawatha"},
                 "JP":{fr:"Japon",en:"Japan",leaderfr:"Nobunaga Oda",leaderen:"Oda Nobunaga"},
                 "KO":{fr:"Corée",en:"Korea",leaderfr:"Sejong",leaderen:"Sejong"},
-                "MA":{fr:"Mayas",en:"The Maya",leaderfr:"Pacal",leaderen:"Pacal"},
+                "MA":{fr:"Mayas",en:"Maya",leaderfr:"Pacal",leaderen:"Pacal"},
                 "MO":{fr:"Mongolie",en:"Mongolia",leaderfr:"Gengis Khan",leaderen:"Genghis Khan"},
                 "MR":{fr:"Maroc",en:"Morocco",leaderfr:"Ahmed al-Mansour",leaderen:"Ahmad al-Mansur"},
-                "NL":{fr:"Pays-Bas",en:"The Netherlands",leaderfr:"Guillaume d'Orange",leaderen:"William"},
-                "OT":{fr:"Ottomans",en:"The Ottomans",leaderfr:"Soliman",leaderen:"Suleiman"},
+                "NL":{fr:"Pays-Bas",en:"Netherlands",leaderfr:"Guillaume d'Orange",leaderen:"William"},
+                "OT":{fr:"Ottomans",en:"Ottomans",leaderfr:"Soliman",leaderen:"Suleiman"},
                 "PE":{fr:"Perse",en:"Persia",leaderfr:"Darius I<span class=\"sup\">er</span>",leaderen:"Darius I"},
                 "PL":{fr:"Pologne",en:"Poland",leaderfr:"Casimir III",leaderen:"Casimir III"},
                 "PY":{fr:"Polynésie",en:"Polynesia",leaderfr:"Kamehameha",leaderen:"Kamehameha"},
                 "PO":{fr:"Portugal",en:"Portugal",leaderfr:"Marie I<span class=\"sup\">ère</span>",leaderen:"Maria I"},
                 "RO":{fr:"Rome",en:"Rome",leaderfr:"Auguste César",leaderen:"Augustus Caesar"},
                 "RU":{fr:"Russie",en:"Russia",leaderfr:"Catherine",leaderen:"Catherine"},
-                "SH":{fr:"Shoshones",en:"The Shoshone",leaderfr:"Pocatello",leaderen:"Pocatello"},
+                "SH":{fr:"Shoshones",en:"Shoshone",leaderfr:"Pocatello",leaderen:"Pocatello"},
                 "SI":{fr:"Siam",en:"Siam",leaderfr:"Ramkhamhaeng",leaderen:"Ramkhamhaeng"},
                 "SO":{fr:"Songhaï",en:"Songhai",leaderfr:"Askia",leaderen:"Askia"},
                 "ES":{fr:"Espagne",en:"Spain",leaderfr:"Isabelle",leaderen:"Isabella"},
                 "SW":{fr:"Suède",en:"Sweden",leaderfr:"Gustave II Adolphe",leaderen:"Gustavus Adolphus"},
                 "VE":{fr:"Venise",en:"Venice",leaderfr:"Enrico Dandolo",leaderen:"Enrico Dandolo"},
-                "ZU":{fr:"Zoulous",en:"The Zulus",leaderfr:"Chaka Zulu",leaderen:"Shaka"},
+                "ZU":{fr:"Zoulous",en:"Zulus",leaderfr:"Chaka Zulu",leaderen:"Shaka"},
             };
 
             var saveData = readLS();
