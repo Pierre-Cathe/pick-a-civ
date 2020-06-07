@@ -196,10 +196,18 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-td.left {
+td.leftword {
   text-align: right;
 }
 
-td.right {
+td.rightword {
   text-align: left;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
 }
