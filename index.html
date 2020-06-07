@@ -75,14 +75,16 @@
 
 
             function sort_civs_en(o1, o2){
-                str_to_compare_1 = civs[o1]["en"];
-                str_to_compare_2 = civs[o2]["en"];
+                text_key = saveData.sort_type=="civ"?"en":"leaderen";
+                str_to_compare_1 = civs[o1][text_key];
+                str_to_compare_2 = civs[o2][text_key];
                 return str_to_compare_1.localeCompare(str_to_compare_2);
             }
 
             function sort_civs_fr(o1, o2){
-                str_to_compare_1 = civs[o1]["fr"];
-                str_to_compare_2 = civs[o2]["fr"];
+                text_key = saveData.sort_type=="civ"?"fr":"leaderfr";
+                str_to_compare_1 = civs[o1][text_key];
+                str_to_compare_2 = civs[o2][text_key];
                 return str_to_compare_1.localeCompare(str_to_compare_2);
             }
 
@@ -94,12 +96,17 @@
 
 
             function draw(){
-                var lang = document.createElement("div");
+                var switches = document.createElement("table");
+                switches.setAttribute("id", "switches");
+
+                var lang = document.createElement("tr");
                 lang.setAttribute("id","lang");
-                var text1 = document.createElement("span");
+                var text1 = document.createElement("td");
                 text1.innerHTML = "English"
-                var text2 = document.createElement("span");
+                text1.setAttribute("class", "left")
+                var text2 = document.createElement("td");
                 text2.innerHTML = "Français"
+                text2.setAttribute("class", "right")
                 var langLabel = document.createElement("label");
                 langLabel.setAttribute("class","switch noselect");
                 var langSwitch = document.createElement("input");
@@ -111,10 +118,41 @@
                 langSwitch.addEventListener("change",function(){saveData.language=="en"?saveData.language="fr":saveData.language="en";writeLS(saveData);redraw();})
                 langLabel.appendChild(langSwitch);
                 langLabel.appendChild(langSpan);
+                var langSwitchCell = document.createElement("td")
+                langSwitchCell.appendChild(langLabel)
                 lang.appendChild(text1);
-                lang.appendChild(langLabel);
+                lang.appendChild(langSwitchCell);
                 lang.appendChild(text2);
-                document.body.appendChild(lang);
+                //document.body.appendChild(lang);
+                switches.appendChild(lang);
+
+                var sort_type = document.createElement("tr");
+                sort_type.setAttribute("id","sort_type");
+                var text1 = document.createElement("td");
+                text1.innerHTML = saveData.language=="en"?"Sort by Civilization":"Trier par Civilisation";
+                text1.setAttribute("class", "left")
+                var text2 = document.createElement("td");
+                text2.innerHTML = saveData.language=="en"?"Sort by Leader":"Trier par Dirigeant";
+                text2.setAttribute("class", "right")
+                var sortLabel = document.createElement("label");
+                sortLabel.setAttribute("class","switch noselect");
+                var sortSwitch = document.createElement("input");
+                sortSwitch.setAttribute("type","checkbox");
+                if (saveData["sort_type"]=="leader")
+                    sortSwitch.setAttribute("checked","");
+                var sortSpan = document.createElement("span");
+                sortSpan.setAttribute("class","slider round");
+                sortSwitch.addEventListener("change",function(){saveData.sort_type=="civ"?saveData.sort_type="leader":saveData.sort_type="civ";writeLS(saveData);redraw();})
+                sortLabel.appendChild(sortSwitch);
+                sortLabel.appendChild(sortSpan);
+                var sortSwitchCell = document.createElement("td")
+                sortSwitchCell.appendChild(sortLabel)
+                sort_type.appendChild(text1);
+                sort_type.appendChild(sortSwitchCell);
+                sort_type.appendChild(text2);
+                //document.body.appendChild(sort_type);
+                switches.appendChild(sort_type);
+                document.body.append(switches)
 
                 var title = document.createElement("img");
                 title.setAttribute("src", "img/appLogo.png");

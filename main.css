@@ -69,13 +69,7 @@ h2{
   margin:0px 2px 0px 2px !important;
 }
 
-.left{
-  float: left;
-}
 
-.right{
-  float: right;
-}
 
 .centered{
   position: relative;
@@ -106,16 +100,24 @@ h2{
   margin: 10px;
 }
 
-#lang {
+#switches {
   position: absolute;
   top:10px;
   right:10px;
-  width:200px;
+  width:400px;
+  display:inline-block;
+  text-align: center;
 }
 
-#lang span {
+#switches div{
+  display:inline-block;
+  float:none;
+}
+
+#switches div span {
   font-weight: 400;
 }
+
 
 #pick {
   background-color: #1d9fcc;
@@ -160,7 +162,7 @@ h2{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #eee;
+  background-color: #e8e8e8;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -192,4 +194,12 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+td.left {
+  text-align: right;
+}
+
+td.right {
+  text-align: left;
 }
